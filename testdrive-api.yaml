@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  testdrive-api
+  SAM Template for testdrive-api
+
+Globals:
+  Function:
+    Timeout: 60
+    Environment:
+      Variables:
+        API_URL: 
+        SLACK_OAUTH_TOKEN: 
+        CHANNEL_ID:
+
+
+Resources:
+  ImageGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: local
+      BinaryMediaTypes:
+        - multipart-1form-data
+
+  LocalServer:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: .bin/bootstrap
+      Runtime: provided.al2023
+      Tracing: Active
+      Events:
+        Testdrive:
+          Type: Api
+          Properties:
+            Path: /testdrive
+            Method: GET
+        HealthCheck:
+          Type: Api
+          Properties:
+            Path: /health
+            Method: GET                        
