@@ -87,6 +87,12 @@ To run Testdrive Lambda locally, follow these steps:
 
 2. Use the `make invoke` command to run Testdrive Lambda locally.
 
-3. To deploy Testdrive to AWS, use `make deploy`. Update export values with your AWS Account details in `Makefile`.
+3. To deploy Testdrive to AWS, use `make deploy`. 
+
+   Note (before running above command): 
+   
+   * Update export values (`AWS_ACCOUNT` and `AWS_REGION`) with your AWS Account details in `Makefile`.
+   * [Create Administrator User](https://docs.aws.amazon.com/streams/latest/dev/setting-up.html)
+   * `aws sso login --profile 808475159191_AdministratorAccess` (replace `808475159191` with your AWS_ACCOUNT) 
 
 4. Console logs should display available endpoints for invocation.

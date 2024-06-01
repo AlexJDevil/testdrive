@@ -20,14 +20,14 @@ develop: develop-clean
 	$(GO_LINUX) go build -o $(BUILD_TO_DIR)/bootstrap ./lambda/main.go;
 
 invoke: develop
-	sam local start-api --env-vars env.json --template testdrive-api.yaml --region us-west-1 --port 9070 --docker-network host --invoke-image amazon/aws-sam-cli-emulation-image-go1.x --skip-pull-image
+	sam local start-api --env-vars env.json --template testdrive-api.yaml --region ${AWS_REGION} --port 9070 --docker-network host --invoke-image amazon/aws-sam-cli-emulation-image-go1.x --skip-pull-image
 
 #run output of this command so environment variables are set.
 update-creds:	
 	export $(shell printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s" \
 	$(shell aws sts assume-role \
-	--profile 808475159191_AdministratorAccess \
-	--role-arn arn:aws:iam::808475159191:role/AdminRole \
+	--profile ${AWS_ACCOUNT}_AdministratorAccess \
+	--role-arn arn:aws:iam::${AWS_ACCOUNT}:role/AdminRole \
 	--role-session-name AWSCLI-Session \
 	--query "Credentials.[AccessKeyId,SecretAccessKey,SessionToken]" \
 	--output text))
